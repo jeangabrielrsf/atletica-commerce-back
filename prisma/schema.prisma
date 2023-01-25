@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int           @id @default(autoincrement())
+  name      String
+  email     String        @unique
+  password  String        @db.VarChar(255)
+  isAdmin   Boolean       @default(false)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  Session   Session[]
+  Purchases Purchases[]
+}
+
+model Session {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  User      User          @relation(fields: [userId], references: [id])
+  token     String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model Teams {
+  id              Int           @id @default(autoincrement())
+  name            String
+  Events          Events[]
+  TeamsCategories TeamsCategories[]
+}
+
+
+model Events {
+  id        Int           @id @default(autoincrement())
+  name      String        
+  startsAt  DateTime
+  endsAt    DateTime
+  teamId    Int
+  Teams     Teams         @relation(fields: [teamId], references: [id])
+}
+
+model TeamsCategories {
+  id        Int           @id @default(autoincrement())
+  category  String
+  teamId    Int
+  Teams     Teams         @relation(fields: [teamId], references: [id])
+}
+
+model Purchases {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  User      User      @relation(fields: [userId], references: [id])
+  productId Int
+  Products  Products  @relation(fields: [productId], references: [id])
+  quantity  Int
+}
+
+model Products {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  price       Int
+  stockQtd    Int
+  pictureURL  String?
+  Purchases   Purchases[]
+}
