@@ -3,7 +3,7 @@ import cors from "cors";
 import { connectDb, disconnectDb } from "./config";
 
 const app = express();
-app.use(cors());
+app.use(cors()).get("/status", (req, res) => res.send("Tudo rodando liso!!!"));
 
 export function init(): Promise<Express> {
 	connectDb();
