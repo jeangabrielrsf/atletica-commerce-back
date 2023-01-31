@@ -1,7 +1,8 @@
+import { getTeams } from "@/controllers/teamsController";
 import { Router } from "express";
 
-const eventsRouter = Router();
+const teamsRouter = Router();
 
-eventsRouter.get("/");
+teamsRouter.get("/", getTeams);
 
-export { eventsRouter };
+export { teamsRouter };

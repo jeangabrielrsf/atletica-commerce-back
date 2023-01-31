@@ -65,11 +65,19 @@ model Purchases {
 }
 
 model Products {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  description         String?
+  price               Int
+  stockQtd            Int
+  pictureURL          String?
+  Purchases           Purchases[]
+  categoryId          Int
+  ProductsCategories  ProductsCategories      @relation(fields: [categoryId], references: [id])
+}
+
+model ProductsCategories {
   id          Int       @id @default(autoincrement())
   name        String
-  description String?
-  price       Int
-  stockQtd    Int
-  pictureURL  String?
-  Purchases   Purchases[]
+  Products    Products[]
 }
