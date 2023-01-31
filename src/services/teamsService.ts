@@ -9,8 +9,17 @@ async function getTeams() {
 	return teams;
 }
 
+async function getTeamsCategories() {
+	const teamsCategories = await teamsRepository.findTeamsCategories();
+	if (!teamsCategories) {
+		throw notFoundError();
+	}
+	return teamsCategories;
+}
+
 const teamsService = {
 	getTeams,
+	getTeamsCategories,
 };
 
 export default teamsService;
