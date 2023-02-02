@@ -32,10 +32,11 @@ model Session {
 }
 
 model Teams {
-  id              Int           @id @default(autoincrement())
+  id              Int             @id @default(autoincrement())
   name            String
+  categoryId      Int
+  TeamsCategories TeamsCategories @relation(fields: [categoryId], references: [id])
   Events          Events[]
-  TeamsCategories TeamsCategories[]
 }
 
 
@@ -51,8 +52,7 @@ model Events {
 model TeamsCategories {
   id        Int           @id @default(autoincrement())
   category  String
-  teamId    Int
-  Teams     Teams         @relation(fields: [teamId], references: [id])
+  Teams     Teams[]
 }
 
 model Purchases {
